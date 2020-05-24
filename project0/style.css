@@ -8,16 +8,26 @@ header {
   background-color: aliceblue;
   width: 100%; }
 
+.date-time {
+  font-size: 16px; }
+
 #news-article {
+  margin-left: 3px;
+  padding: 5px;
   display: flex;
   flex-wrap: wrap; }
   #news-article .article-box {
-    padding: 10px; }
+    padding: 10px;
+    border: 1px solid #eeeeee; }
+    #news-article .article-box h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold; }
     #news-article .article-box .article-box-body {
       display: flex;
       flex-direction: row; }
       #news-article .article-box .article-box-body p {
-        font-size: 15px;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 16px;
         padding: 5px;
         text-align: justify; }
 
