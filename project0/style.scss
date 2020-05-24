@@ -6,13 +6,18 @@ html, body{
 header{
     margin: 0;
     padding: 15px;
-    background-color: aliceblue;
+    background-color: black;
     width: 100%;
+    h1{
+        color: white;
+    }
 }
 
 .date-time{
     font-size: 16px;
 }
+
+
 #news-article{
     margin-left: 3px;
     padding: 5px;
@@ -41,10 +46,23 @@ header{
     }
 }
 
+#side-article{
+    @extend #news-article;
+    margin-left: 0;
+    
+    .side-article-box{
+        @extend .article-box;
+    }
+
+}
+
 @media only screen and (max-width: 499px){
-    aside{
-        display: none;
-        
+    header{
+
+        h1{
+            font-size: 26px !important;
+            font-weight: bold !important;
+        }
     }
     .article-box-body{
         img{
@@ -55,5 +73,8 @@ header{
             font-size: 12px;
         }
     }
-    
+
+    .side-article-box{
+        padding-left: 15px !important;
+    }
 }

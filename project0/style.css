@@ -5,40 +5,49 @@ html, body {
 header {
   margin: 0;
   padding: 15px;
-  background-color: aliceblue;
+  background-color: black;
   width: 100%; }
+  header h1 {
+    color: white; }
 
 .date-time {
   font-size: 16px; }
 
-#news-article {
+#news-article, #side-article {
   margin-left: 3px;
   padding: 5px;
   display: flex;
   flex-wrap: wrap; }
-  #news-article .article-box {
+  #news-article .article-box, #side-article .article-box, #side-article .side-article-box {
     padding: 10px;
     border: 1px solid #eeeeee; }
-    #news-article .article-box h4 {
+    #news-article .article-box h4, #side-article .article-box h4, #side-article .side-article-box h4 {
       font-family: 'Montserrat', sans-serif;
       font-weight: bold; }
-    #news-article .article-box .article-box-body {
+    #news-article .article-box .article-box-body, #side-article .article-box .article-box-body, #side-article .side-article-box .article-box-body {
       display: flex;
       flex-direction: row; }
-      #news-article .article-box .article-box-body p {
+      #news-article .article-box .article-box-body p, #side-article .article-box .article-box-body p, #side-article .side-article-box .article-box-body p {
         font-family: 'Source Sans Pro', sans-serif;
         font-size: 16px;
         padding: 5px;
         text-align: justify; }
 
+#side-article {
+  margin-left: 0; }
+
 @media only screen and (max-width: 499px) {
-  aside {
-    display: none; }
+  header h1 {
+    font-size: 26px !important;
+    font-weight: bold !important; }
 
   .article-box-body img {
     margin-right: 12px; }
   .article-box-body p {
     padding: 0 !important;
-    font-size: 12px; } }
+    font-size: 12px; }
+
+  .side-article-box {
+    padding-left: 15px !important; } }
 
 /*# sourceMappingURL=style.css.map */
