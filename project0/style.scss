@@ -1,3 +1,5 @@
+$borderColor: #eeeeee;
+
 html, body{
     margin:0;
     padding:0;
@@ -25,6 +27,7 @@ header{
     flex-wrap: wrap;
 
     .article-box{
+        width: 100% !important;
         padding: 10px;
         border: 1px solid #eeeeee;
         h4{
@@ -44,6 +47,15 @@ header{
         }
 
     }
+
+    .news-box{
+        padding: 15px;
+        border: 1px solid $borderColor;
+        
+        .news-box-head{
+            margin-bottom: 15px;
+        }
+    }
 }
 
 #side-article{
@@ -56,9 +68,26 @@ header{
 
 }
 
+#contact-us{
+    @extend #news-article;
+
+    .contact-us-box{
+        @extend .article-box;
+    }
+}
+
+footer{
+    margin-top: 3px;
+    border-top: 1px solid $borderColor;
+    padding: 3px;
+    text-align: center;
+    font-size: 14px;
+    color: grey;
+}
+
 @media only screen and (max-width: 499px){
     header{
-
+        width: 100%;
         h1{
             font-size: 26px !important;
             font-weight: bold !important;

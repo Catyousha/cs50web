@@ -13,33 +13,49 @@ header {
 .date-time {
   font-size: 16px; }
 
-#news-article, #side-article {
+#news-article, #side-article, #contact-us {
   margin-left: 3px;
   padding: 5px;
   display: flex;
   flex-wrap: wrap; }
-  #news-article .article-box, #side-article .article-box, #side-article .side-article-box {
+  #news-article .article-box, #side-article .article-box, #contact-us .article-box, #side-article .side-article-box, #contact-us .contact-us-box {
+    width: 100% !important;
     padding: 10px;
     border: 1px solid #eeeeee; }
-    #news-article .article-box h4, #side-article .article-box h4, #side-article .side-article-box h4 {
+    #news-article .article-box h4, #side-article .article-box h4, #contact-us .article-box h4, #side-article .side-article-box h4, #contact-us .contact-us-box h4 {
       font-family: 'Montserrat', sans-serif;
       font-weight: bold; }
-    #news-article .article-box .article-box-body, #side-article .article-box .article-box-body, #side-article .side-article-box .article-box-body {
+    #news-article .article-box .article-box-body, #side-article .article-box .article-box-body, #contact-us .article-box .article-box-body, #side-article .side-article-box .article-box-body, #contact-us .contact-us-box .article-box-body {
       display: flex;
       flex-direction: row; }
-      #news-article .article-box .article-box-body p, #side-article .article-box .article-box-body p, #side-article .side-article-box .article-box-body p {
+      #news-article .article-box .article-box-body p, #side-article .article-box .article-box-body p, #contact-us .article-box .article-box-body p, #side-article .side-article-box .article-box-body p, #contact-us .contact-us-box .article-box-body p {
         font-family: 'Source Sans Pro', sans-serif;
         font-size: 16px;
         padding: 5px;
         text-align: justify; }
+  #news-article .news-box, #side-article .news-box, #contact-us .news-box {
+    padding: 15px;
+    border: 1px solid #eeeeee; }
+    #news-article .news-box .news-box-head, #side-article .news-box .news-box-head, #contact-us .news-box .news-box-head {
+      margin-bottom: 15px; }
 
 #side-article {
   margin-left: 0; }
 
+footer {
+  margin-top: 3px;
+  border-top: 1px solid #eeeeee;
+  padding: 3px;
+  text-align: center;
+  font-size: 14px;
+  color: grey; }
+
 @media only screen and (max-width: 499px) {
-  header h1 {
-    font-size: 26px !important;
-    font-weight: bold !important; }
+  header {
+    width: 100%; }
+    header h1 {
+      font-size: 26px !important;
+      font-weight: bold !important; }
 
   .article-box-body img {
     margin-right: 12px; }
