@@ -38,14 +38,14 @@ footer{
 {% block body %}
 
 
-<form class="form-search">
+<form method="GET" action="{{url_for('result')}}" class="form-search">
     <h1 class="h1 mb-3 font-weight-bold" style="font-size: 60px">BookCheck</h1>
-    <input type="text" class="form-control mb-3" placeholder="Search something here..." required autofocus>
+    <input name="search" type="text" class="form-control mb-3" placeholder="Search something here..." required autofocus>
     <button class="btn btn-md btn-primary btn-block" type="submit">Search</button>
 </form>
 
 <footer>
-    <a href="#">Log Out</a>
+    <a href="{{url_for('login')}}">Log Out</a>
 </footer>
 
 {% endblock %}

@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Result | BookCheck
+{% endblock %}
+
+{% block style %}
+<style>
+form{
+    width: 50% !important;
+}
+header{
+    padding: 25px;
+    width: 100%;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<header>
+        <a href="{{url_for('index')}}">&#8592; Back to search</a>
+        <a style="float: right;" href="#">Log out</a>
+</header>
+
+<form class="container mt-3" method="GET" action="{{url_for('result')}}">
+<div class="input-group">
+        <input name="search" type="text" class="form-control" placeholder="Search something here..." required autofocus>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+
+<div class="container-fluid mt-5">
+    {% if books|length == 0 %}
+    <p class="text-center lead">No result found</p>
+    {% endif %}
+    <div class="row">
+        {% for book in books %}
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{book.title}}</h3>
+                    <p>ISBN: {{book.isbn}}<br>
+                    Author: {{book.author}}<br>
+                    Year: {{book.year}}</p>
+                    <a style="float: right;" href="#">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

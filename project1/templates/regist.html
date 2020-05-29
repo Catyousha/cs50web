@@ -35,12 +35,15 @@ body {
 {% block body %}
 
 
-<form class="form-search">
+<form method="POST" action="#" class="form-search">
     <h1 class="h1 mb-3">Register</h1>
+    {% if messages is not none %}
+        <p class="text-danger">{{messages}}</p>
+    {% endif %}
     <div class="form-group">
-    <input type="text" class="form-control" placeholder="Username" required autofocus>
-    <input type="password" class="form-control mt-1" placeholder="Password" required autofocus>
-    <input type="password" class="form-control mt-1" placeholder="Confirm Password" required autofocus>
+        <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+        <input name="pass1" type="password" class="form-control mt-1" placeholder="Password" required autofocus>
+        <input name="pass2" type="password" class="form-control mt-1" placeholder="Confirm Password" required autofocus>
     </div>
     <button class="btn btn-md btn-primary btn-block" type="submit">Register</button>
 </form>

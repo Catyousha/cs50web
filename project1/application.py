@@ -25,14 +25,43 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/", methods=['GET','POST'])
 def index():
-    if request.method != 'POST' or session.get("user_data") is None:
+    if  session.get("user_data") is None:
         return redirect(url_for('login'))
     else:
         return render_template("search.html")
 
+@app.route("/result", methods=['GET'])
+def result():
+    searchItem = request.args.get("search")
+    if searchItem is None:
+        return redirect(url_for('index'))
+        
+    if type(searchItem) is int:
+        books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src OR year = :srcInt",{"src": "%"+searchItem+"%", "srcInt": searchItem}).fetchall()
+    else:
+        books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src",{"src": "%"+searchItem+"%"}).fetchall()
+    
+    return render_template("result.html", books=books)
+
 @app.route("/register", methods = ['POST', 'GET'])
 def register():
-    return render_template("regist.html")
+    if request.method == 'POST':
+        username = request.form.get("username")
+        checkUser = db.execute("SELECT user_id FROM user_data WHERE username = :username", {"username": username}).rowcount
+        if (checkUser>=1):
+            return render_template("regist.html", messages="Username has already taken!")
+        else:
+            pass1 = request.form.get("pass1")
+            pass2 = request.form.get("pass2")
+            if pass1 != pass2:
+                return render_template("regist.html", messages="Password not match!")
+            else:
+                encpass = sha256_crypt.encrypt(pass1)
+                db.execute("INSERT INTO user_data (username, password) VALUES (:username, :password)",{"username":username, "password":encpass})
+                db.commit()
+                return redirect(url_for("login"))
+    else:
+        return render_template("regist.html")
 
 @app.route("/login", methods = ['POST', 'GET'])
 def login():
@@ -43,13 +72,15 @@ def login():
         if(checkUser != 0):
             password = request.form.get("pass")
             encpass = sha256_crypt.encrypt(password)
-            accpass = db.execute("SELECT password FROM user_data WHERE username = :username", {"username": username}).fetchone()
+            accpass = db.execute("SELECT * FROM user_data WHERE username = :username", {"username": username}).fetchone()
             
-            if(sha256_crypt.verify(encpass, accpass.password)):
+            if(sha256_crypt.verify(password, accpass.password)):
+                session["user_data"] = accpass.user_id
                 return redirect(url_for('index'))
             else:
-                return render_template("login.html", messages= "Wrong Password!")
+                return render_template("login.html", messages="Wrong Password!")
         else:
             return render_template("login.html", messages="Username not found!")
     else:
+        session["user_data"] = None
         return render_template("login.html")
