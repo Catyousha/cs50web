@@ -20,7 +20,7 @@ header{
 
 <header>
         <a href="{{url_for('index')}}">&#8592; Back to search</a>
-        <a style="float: right;" href="#">Log out</a>
+        <a style="float: right;" href="{{url_for('login')}}">Log out</a>
 </header>
 
 <form class="container mt-3" method="GET" action="{{url_for('result')}}">
@@ -44,8 +44,8 @@ header{
                     <h3>{{book.title}}</h3>
                     <p>ISBN: {{book.isbn}}<br>
                     Author: {{book.author}}<br>
-                    Year: {{book.year}}</p>
-                    <a style="float: right;" href="#">Details</a>
+                    Published Year: {{book.year}}</p>
+                    <a style="float: right;" href="{{url_for('details',isbn = book.isbn)}}">Details</a>
                 </div>
             </div>
         </div>

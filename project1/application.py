@@ -1,11 +1,13 @@
 import os
 
-from flask import Flask, session, render_template, request, url_for, redirect
+from flask import Flask, session, jsonify, render_template, request, url_for, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
 import requests
+import xmltodict
+import json
 
 app = Flask(__name__)
 
@@ -25,7 +27,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/", methods=['GET','POST'])
 def index():
-    if  session.get("user_data") is None:
+    if session.get("user_data") is None:
         return redirect(url_for('login'))
     else:
         return render_template("search.html")
@@ -35,13 +37,23 @@ def result():
     searchItem = request.args.get("search")
     if searchItem is None:
         return redirect(url_for('index'))
-        
+
     if type(searchItem) is int:
         books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src OR year = :srcInt",{"src": "%"+searchItem+"%", "srcInt": searchItem}).fetchall()
     else:
         books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src",{"src": "%"+searchItem+"%"}).fetchall()
     
     return render_template("result.html", books=books)
+
+@app.route("/details/<string:isbn>")
+def details(isbn):
+    if session.get("user_data") is None:
+        return redirect(url_for('login'))
+    
+    book = db.execute("SELECT * FROM books WHERE isbn = :s", {"s": isbn}).fetchone()
+    xml_res = requests.get("https://www.goodreads.com/search/index.xml", params={"key": 'KJ1y2SMO2Tvh7UfI7ldw', "q": isbn})
+    data = xmltodict.parse(xml_res.text)
+    return render_template("details.html", username = session['user_name'], book=book, data=data['GoodreadsResponse']['search']['results']['work'])
 
 @app.route("/register", methods = ['POST', 'GET'])
 def register():
@@ -76,6 +88,7 @@ def login():
             
             if(sha256_crypt.verify(password, accpass.password)):
                 session["user_data"] = accpass.user_id
+                session["user_name"] = accpass.username
                 return redirect(url_for('index'))
             else:
                 return render_template("login.html", messages="Wrong Password!")
