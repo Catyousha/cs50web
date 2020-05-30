@@ -39,21 +39,33 @@ def result():
         return redirect(url_for('index'))
 
     if type(searchItem) is int:
-        books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src OR year = :srcInt",{"src": "%"+searchItem+"%", "srcInt": searchItem}).fetchall()
+        books = db.execute("SELECT * FROM books WHERE isbn ILIKE :src OR title ILIKE :src OR author ILIKE :src OR year = :srcInt",{"src": "%"+searchItem+"%", "srcInt": searchItem}).fetchall()
     else:
-        books = db.execute("SELECT * FROM books WHERE isbn LIKE :src OR title LIKE :src OR author LIKE :src",{"src": "%"+searchItem+"%"}).fetchall()
+        books = db.execute("SELECT * FROM books WHERE isbn ILIKE :src OR title ILIKE :src OR author ILIKE :src",{"src": "%"+searchItem+"%"}).fetchall()
     
     return render_template("result.html", books=books)
 
-@app.route("/details/<string:isbn>")
+@app.route("/details/<string:isbn>", methods=['GET','POST'])
 def details(isbn):
     if session.get("user_data") is None:
         return redirect(url_for('login'))
-    
-    book = db.execute("SELECT * FROM books WHERE isbn = :s", {"s": isbn}).fetchone()
-    xml_res = requests.get("https://www.goodreads.com/search/index.xml", params={"key": 'KJ1y2SMO2Tvh7UfI7ldw', "q": isbn})
-    data = xmltodict.parse(xml_res.text)
-    return render_template("details.html", username = session['user_name'], book=book, data=data['GoodreadsResponse']['search']['results']['work'])
+
+    if request.method == 'POST':
+        review = request.form.get('reviews')
+        rating = request.form.get('rating')
+        userid = session['user_data']
+        db.execute("INSERT INTO book_reviews (book_isbn, user_id, reviews_text, ratings) VALUES (:b, :u, :r, :s)",{"b": isbn, "u":userid, "r": review, "s":rating})
+        db.commit()
+        return redirect(url_for('details',isbn=isbn))
+
+    else:
+        book = db.execute("SELECT * FROM books WHERE isbn = :s", {"s": isbn}).fetchone()
+        reviews = db.execute("SELECT * FROM book_reviews br JOIN user_data ud ON br.user_id = ud.user_id WHERE book_isbn = :b", {"b": isbn}).fetchall()
+        canreview = db.execute("SELECT user_id FROM book_reviews WHERE book_isbn = :b AND user_id = :u", {"b": isbn, "u": session['user_data']}).rowcount
+
+        xml_res = requests.get("https://www.goodreads.com/search/index.xml", params={"key": 'KJ1y2SMO2Tvh7UfI7ldw', "q": isbn})
+        data = xmltodict.parse(xml_res.text)
+        return render_template("details.html", canreview=canreview, reviews=reviews, book=book, data=data['GoodreadsResponse']['search']['results']['work'])
 
 @app.route("/register", methods = ['POST', 'GET'])
 def register():

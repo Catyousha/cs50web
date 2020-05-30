@@ -23,9 +23,9 @@ header{
         <a style="float: right;" href="{{url_for('login')}}">Log out</a>
 </header>
 
-<div class="container-fluid mt-5">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-6">
+<div class="container-fluid p-5" style="width: 75%;">
+    <div class="row justify-content-center">
+        <div class="col-12 mb-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -47,14 +47,27 @@ header{
                 </div>
             </div>
         </div>
+        {% for review in reviews %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-head pl-3 pt-3">
+                    <p class="m-0"><strong>{{review.username}}</strong> &#10029; {{review.ratings}}</p>
+                </div>
+                <div class="card-body">
+                    <p class="text-justify mb-0">{{review.reviews_text}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 
+{% if canreview == 0 %}
 <form class="container mt-3" method="POST" action="{{url_for('details',isbn=book.isbn)}}" autocomplete="off">
 <div class="input-group">
-        <input name="reviews" type="text" class="form-control" placeholder="Submit review as {{username}}..." required autofocus>
+        <input name="reviews" type="text" class="form-control" placeholder="Submit review as {{session['user_name']}}..." required autofocus>
         <div class="input-group-append">
-                <select class="custom-select" required>
+                <select name="rating" class="custom-select" required>
                         <option value=0 selected>Select Rating...</option>
                         <option value=1>1 Star</option>
                         <option value=2>2 Stars</option>
@@ -66,5 +79,5 @@ header{
         </div>
     </div>
 </form>
-
+{% endif %}
 {% endblock %}
