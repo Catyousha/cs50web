@@ -7,7 +7,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
 import requests
 import xmltodict
-import json
 
 app = Flask(__name__)
 
@@ -18,6 +17,7 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["JSON_SORT_KEYS"] = False
 Session(app)
 
 # Set up database
@@ -109,3 +109,16 @@ def login():
     else:
         session["user_data"] = None
         return render_template("login.html")
+
+@app.route("/api/<string:isbn>")
+def books_api(isbn):
+    book = db.execute("SELECT * FROM books WHERE isbn = :s", {"s": isbn}).fetchone()
+    review = db.execute("SELECT AVG(ratings) AS rat, COUNT(reviews_text) as count_rev FROM book_reviews WHERE book_isbn = :b", {"b": isbn}).fetchone()
+    return jsonify({
+        "title": book.title,
+        "author": book.author,
+        "year": book.year,
+        "isbn": book.isbn,
+        "review_count": round(review.count_rev,1),
+        "average_score": round(review.rat,1)
+    })
