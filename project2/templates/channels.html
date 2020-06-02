@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Lorem Channel | Slack
+{% if viewAs == 'welcome' %}
+    Welcome!
+{% elif viewAs == 'channel' %}
+    Lorem Channel | Slack
+{% elif viewAs == 'create' %}
+    Create New Channel
+{% endif %}
 {% endblock %}
 
 {% block body %}
@@ -27,10 +33,24 @@ p{
         <div class="p-3 w-100" style="border-bottom: 1px solid #eeeeee">
             <a class="h4">#channel1</a>
             <div style="float: right;">
-            <a>@Tenessine | </a><a href="{{url_for('index')}}" >Log Out</a>
+            <a>@{{session['user_dname']}} | </a><a href="{{url_for('logout')}}" >Log Out</a>
             </div>
         </div>
-        
+
+
+        {% if viewAs == 'welcome' %}
+        <div class="h-75 container" style="overflow-y: auto;">
+            <div class="row align-items-center h-100">
+                <div class="col-6 mx-auto">
+                    <div class="jumbotron text-center">
+                        <h4 class="font-weight-bold">Welcome to the Slack, <strong style="color: #{{session['user_color']}};">{{session['user_dname']}}</strong>!</h4>
+                        <p>You can join the existing channel or create a new channel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% elif viewAs == 'channel' %}
         <div class="h-75" style="overflow-y: auto;">
             <p>[Jun 2, 2020 | 06:57:56] <strong style="color: blue;">Tenessine join the chat</strong></p>
             <p>[Jun 2, 2020 | 06:58:00] &lt;<strong style="color: blue;">Tenessine</strong>&gt; Hello ppl!</p>
@@ -38,7 +58,33 @@ p{
             <p>[Jun 2, 2020 | 06:58:05] <strong style="color: blue;">Tenessine left the chat</strong></p>
         </div>
 
+        {% elif viewAs == 'create' %}
+        <div class="h-75 container" style="overflow-y: auto;">
+                <div class="row align-items-center h-100">
+                    <div class="col-6 mx-auto">
+                        <div class="jumbotron text-center">
+                            <p class="lead">Please enter new channel name</p>
+                            <form class="form-group" method="POST" action="#">
+                                <div class="input-group flex-nowrap w-75 mb-2 mt-4" style="float: none; margin: 0 auto;">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping">#</span>
+                                    </div>
+                                    <input name="newchannel" type="text" class="form-control" placeholder="New channel name..." aria-describedby="addon-wrapping">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Create</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+
         <div class="p-3 w-100" style="border-top: 1px solid #eeeeee">
+            {% if viewAs == 'channel' %}
             <form class="form-group" method="POST" action="#">
                 <div class="input-group flex-nowrap w-75" style="float: none; margin: 0 auto;">
                     <input name="message" type="text" class="form-control" placeholder="Enter message...">
@@ -47,6 +93,7 @@ p{
                     </div>
                 </div>
             </form>
+            {% endif %}
         </div>
     </div>
 </div>
