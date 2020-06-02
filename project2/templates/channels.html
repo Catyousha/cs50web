@@ -16,16 +16,19 @@ p{
         <h5 class="p-3 mx-2" style="border-bottom: 1px solid #eeeeee">Channels</h4>
         <div class="overflow-auto">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">#channel1</a>
-                <a href="#" class="list-group-item list-group-item-action">#channel2</a>
-                <a href="#" class="list-group-item list-group-item-action">#channel3</a>
+                <a href="#" class="list-group-item list-group-item-action active"># channel1</a>
+                <a href="#" class="list-group-item list-group-item-action"># channel2</a>
+                <a href="#" class="list-group-item list-group-item-action"># channel3</a>
+                <a href="{{url_for('add_channel')}}" class="list-group-item list-group-item-action">+ Create new channel</a>
             </div>
         </div>
     </div>
     <div class="col-xl-10 col-sm-9">
         <div class="p-3 w-100" style="border-bottom: 1px solid #eeeeee">
             <a class="h4">#channel1</a>
-            <a href="#" style="float: right; margin-right: 15px;">Log Out</a>
+            <div style="float: right;">
+            <a>@Tenessine | </a><a href="{{url_for('index')}}" >Log Out</a>
+            </div>
         </div>
         
         <div class="h-75" style="overflow-y: auto;">

@@ -15,3 +15,7 @@ def index():
 @app.route("/channels")
 def channels():
     return render_template("channels.html")
+
+@app.route("/create-channel")
+def add_channel():
+    return render_template("createchannel.html")
