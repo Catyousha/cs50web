@@ -21,7 +21,7 @@ p{
     <div class="col-xl-2 col-sm-3 p-0" style="min-height: 100vh; border: 1px solid #eeeeee;">
         <h5 class="p-3 mx-2" style="border-bottom: 1px solid #eeeeee">Channels</h4>
         <div class="overflow-auto">
-            <div class="list-group">
+            <div id="channels" class="list-group">
             {% for channel in ch %}
                 <a href="{{url_for('channels', chn = channel)}}" class="list-group-item list-group-item-action
                 {% if session['current_ch'] == channel %}

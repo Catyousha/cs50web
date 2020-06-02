@@ -15,6 +15,9 @@ Session(app)
 channelList = []
 userList = []
 
+#for emitting purposes
+emit_data = dict()
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if session.get('user_dname') is not None:
@@ -54,7 +57,8 @@ def add_channel():
             return render_template("channels.html", viewAs="create", ch=channelList, error="Channel is already exist!")
         else:
             channelList.append(newCh)
-            return redirect(url_for('welcome'))
+            emit_data['newch'] = newCh
+            socketio.emit("new channel added", emit_data, broadcast=True)
 
     return render_template("channels.html", viewAs="create", ch=channelList)
 
