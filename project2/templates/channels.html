@@ -21,13 +21,15 @@ p{
     <div class="col-xl-2 col-sm-3 p-0" style="min-height: 100vh; border: 1px solid #eeeeee;">
         <h5 class="p-3 mx-2" style="border-bottom: 1px solid #eeeeee">Channels</h4>
         <div class="overflow-auto">
-            <div id="channels" class="list-group">
-            {% for channel in ch %}
-                <a href="{{url_for('channels', chn = channel)}}" class="list-group-item list-group-item-action
-                {% if session['current_ch'] == channel %}
-                    active
-                {% endif %}"># {{channel}}</a>
-            {% endfor %}
+            <div class="list-group">
+                <div id="channels">
+                {% for channel in ch %}
+                    <a href="{{url_for('channels', chn = channel)}}" class="list-group-item list-group-item-action
+                    {% if session['current_ch'] == channel %}
+                        active
+                    {% endif %}"># {{channel}}</a>
+                {% endfor %}
+                </div>
                 <a href="{{url_for('add_channel')}}" class="list-group-item list-group-item-action
                 {% if viewAs == 'create' %}
                     active
@@ -81,17 +83,17 @@ p{
                             {% if error is not none %}
                                 <p class="text-danger">{{error}}</p>
                             {% endif %}
-                            <form class="form-group" method="POST" action="#">
+                            <div class="form-group">
                                 <div class="input-group flex-nowrap w-75 mb-2 mt-4" style="float: none; margin: 0 auto;">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="addon-wrapping">#</span>
                                     </div>
-                                    <input name="newchannel" type="text" class="form-control" placeholder="New channel name..." aria-describedby="addon-wrapping">
+                                    <input id="newchannel-name" name="newchannel" type="text" class="form-control" placeholder="New channel name..." aria-describedby="addon-wrapping">
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Create</button>
+                                        <button id="newchannel-submit" class="btn btn-primary">Create</button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

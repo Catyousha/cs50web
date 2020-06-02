@@ -50,17 +50,21 @@ def channels(chn):
 def add_channel():
     if session.get('user_dname') is None:
         return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        newCh = request.form.get('newchannel')
-        if newCh in channelList:
-            return render_template("channels.html", viewAs="create", ch=channelList, error="Channel is already exist!")
-        else:
-            channelList.append(newCh)
-            emit_data['newch'] = newCh
-            socketio.emit("new channel added", emit_data, broadcast=True)
-
+        
+    session['current_ch'] = []
     return render_template("channels.html", viewAs="create", ch=channelList)
+
+@socketio.on("submit new channel")
+def submit_newch(data):
+    newCh = data['newchannel-name']
+    if newCh in channelList:
+        return render_template("channels.html", viewAs="create", ch=channelList, error="Channel is already exist!")
+    elif len(newCh) <=1:
+        return render_template("channels.html", viewAs="create", ch=channelList, error="Channel name is not valid!")
+    else:
+        channelList.append(newCh)
+        emit_data['newch'] = newCh
+        emit("new channel added", emit_data, broadcast=True)
 
 @app.route("/welcome")
 def welcome():
@@ -72,8 +76,7 @@ def welcome():
 @app.route("/logout")
 def logout():
     if session.get('user_dname') is None:
-        return redirect(url_for('index'))
-        
+        return redirect(url_for('index'))        
     try:
         userList.remove(session['user_dname'])
     except ValueError:
