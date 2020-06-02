@@ -16,6 +16,9 @@ userList = []
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    if session.get('user_dname') is not None:
+        return redirect(url_for('welcome'))
+
     if request.method == 'POST':
         user_dname = request.form.get('displayname')
         if len(user_dname) <=1:
@@ -33,18 +36,30 @@ def index():
 
 @app.route("/channels")
 def channels():
+    if session.get('user_dname') is None:
+        return redirect(url_for('index'))
+
     return render_template("channels.html", viewAs="channel")
 
 @app.route("/create-channel")
 def add_channel():
+    if session.get('user_dname') is None:
+        return redirect(url_for('index'))
+
     return render_template("channels.html", viewAs="create")
 
 @app.route("/welcome")
 def welcome():
+    if session.get('user_dname') is None:
+        return redirect(url_for('index'))
+
     return render_template("channels.html", viewAs="welcome")
 
 @app.route("/logout")
 def logout():
+    if session.get('user_dname') is None:
+        return redirect(url_for('index'))
+        
     try:
         userList.remove(session['user_dname'])
     except ValueError:
