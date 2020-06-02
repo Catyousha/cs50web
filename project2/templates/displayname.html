@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Welcome to the Slack!
+{% endblock %}
+
+{% block body %}
+
+<div class="container text-center py-5 h-100">
+    <h1 class="font-weight-bold">Slack</h1>
+    <p class="lead">Please enter your display name</p>
+    <form class="form-group" method="POST" action="#">
+        <div class="input-group flex-nowrap w-25 mb-2" style="float: none; margin: 0 auto;">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping">@</span>
+            </div>
+            <input name="displayname" type="text" class="form-control" placeholder="Display name..." aria-describedby="addon-wrapping">
+        </div>
+        <button class="btn btn-primary" type="submit">Join Slack</button>
+    </form>
+</div>
+
+{% endblock %}
