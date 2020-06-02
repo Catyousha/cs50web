@@ -12,6 +12,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 socketio = SocketIO(app)
 Session(app)
 
+channelList = []
 userList = []
 
 @app.route("/", methods=['GET', 'POST'])
@@ -34,26 +35,35 @@ def index():
     else:
         return render_template("displayname.html")
 
-@app.route("/channels")
-def channels():
+@app.route("/channels/<string:chn>")
+def channels(chn):
     if session.get('user_dname') is None:
         return redirect(url_for('index'))
+    
+    session['current_ch'] = chn
+    return render_template("channels.html", viewAs="channel", ch=channelList)
 
-    return render_template("channels.html", viewAs="channel")
-
-@app.route("/create-channel")
+@app.route("/create-channel", methods=['POST','GET'])
 def add_channel():
     if session.get('user_dname') is None:
         return redirect(url_for('index'))
 
-    return render_template("channels.html", viewAs="create")
+    if request.method == 'POST':
+        newCh = request.form.get('newchannel')
+        if newCh in channelList:
+            return render_template("channels.html", viewAs="create", ch=channelList, error="Channel is already exist!")
+        else:
+            channelList.append(newCh)
+            return redirect(url_for('welcome'))
+
+    return render_template("channels.html", viewAs="create", ch=channelList)
 
 @app.route("/welcome")
 def welcome():
     if session.get('user_dname') is None:
         return redirect(url_for('index'))
 
-    return render_template("channels.html", viewAs="welcome")
+    return render_template("channels.html", viewAs="welcome", ch=channelList)
 
 @app.route("/logout")
 def logout():

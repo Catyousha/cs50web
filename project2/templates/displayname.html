@@ -11,6 +11,9 @@ Welcome to the Slack!
         <div class="col-6 text-center mx-auto">
             <h1 class="font-weight-bold">Slack</h1>
             <p class="lead">Please enter your display name</p>
+            {% if error is not none %}
+                <p class="text-danger">{{error}}</p>
+            {% endif %}
             <form class="form-group" method="POST" action="#">
                 <div class="input-group flex-nowrap w-75 mb-2" style="float: none; margin: 0 auto;">
                     <div class="input-group-prepend">
