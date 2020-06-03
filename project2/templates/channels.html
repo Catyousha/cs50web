@@ -4,7 +4,7 @@
 {% if viewAs == 'welcome' %}
     Welcome!
 {% elif viewAs == 'channel' %}
-    {{session['current_ch']}} Channel | Slack
+    {{session['current_ch']}} Channel | Flack
 {% elif viewAs == 'create' %}
     Create New Channel
 {% endif %}
@@ -59,7 +59,7 @@ p{
             <div class="row align-items-center h-100">
                 <div class="col-6 mx-auto">
                     <div class="jumbotron text-center">
-                        <h4 class="font-weight-bold">Welcome to the Slack, <strong style="color: #{{session['user_color']}};">{{session['user_dname']}}</strong>!</h4>
+                        <h4 class="font-weight-bold">Welcome to the Flack, <strong style="color: #{{session['user_color']}};">{{session['user_dname']}}</strong>!</h4>
                         <p>You can join the existing channel or create a new channel.</p>
                     </div>
                 </div>

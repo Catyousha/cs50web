@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Welcome to the Slack!
+Welcome to the Flack!
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@ Welcome to the Slack!
 <div class="container h-100">
     <div class="row align-items-center h-100">
         <div class="col-6 text-center mx-auto">
-            <h1 class="font-weight-bold">Slack</h1>
+            <h1 class="font-weight-bold">Flack</h1>
             <p class="lead">Please enter your display name</p>
             {% if error is not none %}
                 <p class="text-danger">{{error}}</p>
@@ -21,7 +21,7 @@ Welcome to the Slack!
                     </div>
                     <input id="dname" name="displayname" type="text" class="form-control" placeholder="Display name..." aria-describedby="addon-wrapping">
                 </div>
-                <button id="dname-submit" class="btn btn-primary" type="submit">Join Slack</button>
+                <button id="dname-submit" class="btn btn-primary" type="submit">Join Flack</button>
             </form>
         </div>
     </div>
