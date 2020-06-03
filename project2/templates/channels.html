@@ -68,10 +68,13 @@ p{
 
         {% elif viewAs == 'channel' %}
         <div class="h-75" style="overflow-y: auto;">
-            <p>[Jun 2, 2020 | 06:57:56] <strong style="color: blue;">Tenessine join the chat</strong></p>
-            <p>[Jun 2, 2020 | 06:58:00] &lt;<strong style="color: blue;">Tenessine</strong>&gt; Hello ppl!</p>
-            <p>[Jun 2, 2020 | 06:58:01] &lt;<strong style="color: blue;">Tenessine</strong>&gt; Is anyone here?</p>
-            <p>[Jun 2, 2020 | 06:58:05] <strong style="color: blue;">Tenessine left the chat</strong></p>
+            <div id="#chatMsg">
+                {% for msg in messages %}
+<!--                <p>[Jun 2, 2020 | 06:57:56] <strong style="color: blue;">Tenessine join the chat</strong></p> -->
+                <p>[{{msg[1]}}] &lt;<strong style="color: #{{msg[0]}};">{{msg[2]}}</strong>&gt; {{msg[3]}}</p>
+<!--                <p>[Jun 2, 2020 | 06:58:05] <strong style="color: blue;">Tenessine left the chat</strong></p> -->
+                {% endfor %}
+            </div>
         </div>
 
         {% elif viewAs == 'create' %}
@@ -80,10 +83,8 @@ p{
                     <div class="col-6 mx-auto">
                         <div class="jumbotron text-center">
                             <p class="lead">Please enter new channel name</p>
-                            {% if error is not none %}
-                                <p class="text-danger">{{error}}</p>
-                            {% endif %}
-                            <div class="form-group">
+
+                            <div id="channel-form" class="form-group">
                                 <div class="input-group flex-nowrap w-75 mb-2 mt-4" style="float: none; margin: 0 auto;">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="addon-wrapping">#</span>
@@ -104,14 +105,14 @@ p{
 
         <div class="p-3 w-100" style="border-top: 1px solid #eeeeee">
             {% if viewAs == 'channel' %}
-            <form class="form-group" method="POST" action="#">
+            <div class="form-group">
                 <div class="input-group flex-nowrap w-75" style="float: none; margin: 0 auto;">
-                    <input name="message" type="text" class="form-control" placeholder="Enter message...">
+                    <input id="msg-text" name="message" type="text" class="form-control" placeholder="Enter message...">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="msg-submit" type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
-            </form>
+            </div>
             {% endif %}
         </div>
     </div>
