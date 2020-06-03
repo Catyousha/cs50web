@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
     socket.on('connect', () => {
 
-        let chatMsg = document.querySelector('#chatMsg');
+        var chatMsg = document.querySelector('#chatMsg');
         if (chatMsg){
             socket.emit('user enter channel');
             window.addEventListener("beforeunload", (event) =>{
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () =>{
                 if(msg.length > 0){
                     socket.emit('submit message', {'message-text': msg});
                 };
+
             });
 
             let msg_text = document.querySelector('#msg-text');
@@ -71,18 +72,29 @@ document.addEventListener('DOMContentLoaded', () =>{
         const announce = document.createElement('p');
         announce.innerHTML = `[${data.timestamp}] <strong style="color: #${data.color};">${data.user} joined the chat`;
         document.querySelector('#chatMsg').append(announce);
+        chatMsg.scrollTop = chatMsg.scrollHeight;
+        prevent100Chats();
     })
 
     socket.on('user leave chat', data => {
         const announce = document.createElement('p');
         announce.innerHTML = `[${data.timestamp}] <strong style="color: #${data.color};">${data.user} leave the chat`;
         document.querySelector('#chatMsg').append(announce);
+        prevent100Chats();
     })
 
     socket.on('put message', data => {
         const newMsg = document.createElement('p');
         newMsg.innerHTML = `[${data.timestamp}] &lt;<strong style="color: #${data.color};">${data.user}</strong>&gt; ${data.msg}`;
         document.querySelector('#chatMsg').append(newMsg);
-
+        chatMsg.scrollTop = chatMsg.scrollHeight;
+        prevent100Chats();
     });
+
+    function prevent100Chats(){
+        let chatList = document.querySelector("#chatMsg-list");
+        if (chatList.childElementCount > 100){
+            chatList.removeChild(chatList.childNodes[0]);
+        };
+    }
 });

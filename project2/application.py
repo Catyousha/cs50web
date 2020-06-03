@@ -17,12 +17,14 @@ Session(app)
 channelList = []
 userList = []
 channelMsg = dict()
-emit_data = dict()
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if session.get('user_dname') is not None:
-        return redirect(url_for('welcome'))
+        if session.get('current_ch') is not None:
+            return redirect(url_for('channels', chn = session['current_ch']))
+        else:
+            return redirect(url_for('welcome'))
 
     if request.method == 'POST':
         user_dname = request.form.get('displayname')
