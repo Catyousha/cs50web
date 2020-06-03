@@ -4,7 +4,7 @@
 {% if viewAs == 'welcome' %}
     Welcome!
 {% elif viewAs == 'channel' %}
-    Lorem Channel | Slack
+    {{session['current_ch']}} Channel | Slack
 {% elif viewAs == 'create' %}
     Create New Channel
 {% endif %}
@@ -68,10 +68,10 @@ p{
 
         {% elif viewAs == 'channel' %}
         <div class="h-75" style="overflow-y: auto;">
-            <div id="#chatMsg">
+            <div id="chatMsg">
                 {% for msg in messages %}
 <!--                <p>[Jun 2, 2020 | 06:57:56] <strong style="color: blue;">Tenessine join the chat</strong></p> -->
-                <p>[{{msg[1]}}] &lt;<strong style="color: #{{msg[0]}};">{{msg[2]}}</strong>&gt; {{msg[3]}}</p>
+                <p>{{msg[0] | safe}}</p>
 <!--                <p>[Jun 2, 2020 | 06:58:05] <strong style="color: blue;">Tenessine left the chat</strong></p> -->
                 {% endfor %}
             </div>
@@ -80,7 +80,7 @@ p{
         {% elif viewAs == 'create' %}
         <div class="h-75 container" style="overflow-y: auto;">
                 <div class="row align-items-center h-100">
-                    <div class="col-6 mx-auto">
+                    <div class="col-xl-6 col-sm-12 mx-auto">
                         <div class="jumbotron text-center">
                             <p class="lead">Please enter new channel name</p>
 

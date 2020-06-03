@@ -48,30 +48,51 @@ def welcome():
 
 @app.route("/channels/<string:chn>")
 def channels(chn):
-    if session.get('user_dname') is None:
+    if (session.get('user_dname') is None) or (chn not in channelList):
         return redirect(url_for('index'))
-    
+
     session['current_ch'] = chn
     messages = channelMsg[chn]
     return render_template("channels.html", viewAs="channel", ch=channelList, messages=messages)
 
-@socketio.on("user enter channel")
+@socketio.on("user enter channel", namespace="/")
 def enter_channel():
-    join_room(session['current_ch'])
+    room = session.get('current_ch')
+    join_room(room)
     
     x = datetime.datetime.now()
     timestamp = x.strftime("%b %d, %Y | %X")
-    theUser = session['user-dname']
-    theColor = session['user-color']
-    msg = theUser + "joined the chat"
+    theUser = session['user_dname']
+    theColor = session['user_color']
+    msg = theUser + " joined the chat"
 
-    channelMsg[session['current_ch']].append([theColor, timestamp, theUser, msg])
+    message = f"[{timestamp}] <strong style=\"color: #{theColor};\">{msg}</strong>"
+    channelMsg[session['current_ch']].append([message])
     
     emit('user join chat',{
         'timestamp': timestamp,
         'user': theUser,
         'color': theColor
-    }, room=session['current_ch'])
+    }, room=room)
+
+@socketio.on("user leave channel", namespace="/")
+def leave_channel():
+    
+    x = datetime.datetime.now()
+    timestamp = x.strftime("%b %d, %Y | %X")
+    theUser = session['user_dname']
+    theColor = session['user_color']
+    msg = theUser + " leave the chat"
+
+    message = f"[{timestamp}] <strong style=\"color: #{theColor};\">{msg}</strong>"
+    channelMsg[session['current_ch']].append([message])
+    
+    emit('user leave chat',{
+        'timestamp': timestamp,
+        'user': theUser,
+        'color': theColor
+    }, room=session.get('current_ch'))
+    leave_room(session.get('current_ch'))
 
 @socketio.on("submit message")
 def submit_msg(data):
@@ -80,13 +101,15 @@ def submit_msg(data):
     newMsg = data['message-text']
     timestamp = x.strftime("%b %d, %Y | %X")
     channelNow = session['current_ch']
-    theUser = session['user-dname']
-    theColor = session['user-color']
+    theUser = session['user_dname']
+    theColor = session['user_color']
 
     if len(channelMsg[channelNow]) > 100:
         channelMsg[channelNow].popleft()
 
-    channelMsg[channelNow].append([theColor, timestamp, theUser, newMsg])
+    message = f"[{timestamp}] &lt;<strong style=\"color: #{theColor};\">{theUser}</strong>&gt; {newMsg}"
+    channelMsg[channelNow].append([message])
+
     emit('put message', {
         'user': theUser,
         'color': theColor,

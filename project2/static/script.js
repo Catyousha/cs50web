@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () =>{
 
         let chatMsg = document.querySelector('#chatMsg');
         if (chatMsg){
-            chatMsg.addEventListener("load", () => {
-                socket.emit('user enter channel')
+            socket.emit('user enter channel');
+            window.addEventListener("beforeunload", (event) =>{
+                socket.emit('user leave channel');
             });
         };
 
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 
         let msg_submit = document.querySelector('#msg-submit');
         if (msg_submit){
+
             msg_submit.addEventListener("click", () => {
                 const msg = document.querySelector('#msg-text').value;
                 document.querySelector('#msg-text').value = '';
@@ -32,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () =>{
                     socket.emit('submit message', {'message-text': msg});
                 };
             });
+
+            let msg_text = document.querySelector('#msg-text');
+            msg_text.addEventListener("keyup", (e) =>{
+                if(e.key == "Enter"){
+                    msg_submit.click();
+                };
+            });
+
         };
 
     });
@@ -59,13 +69,19 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     socket.on('user join chat', data => {
         const announce = document.createElement('p');
-        announce.innerHTML = `[${data.timestamp}] <strong style="color: ${data.color};">${data.user} joined the chat`;
+        announce.innerHTML = `[${data.timestamp}] <strong style="color: #${data.color};">${data.user} joined the chat`;
+        document.querySelector('#chatMsg').append(announce);
+    })
+
+    socket.on('user leave chat', data => {
+        const announce = document.createElement('p');
+        announce.innerHTML = `[${data.timestamp}] <strong style="color: #${data.color};">${data.user} leave the chat`;
         document.querySelector('#chatMsg').append(announce);
     })
 
     socket.on('put message', data => {
         const newMsg = document.createElement('p');
-        newMsg.innerHTML = `[${data.timestamp}] &lt;<strong style="color: ${data.color};">${data.user}</strong>&gt; ${data.msg}`;
+        newMsg.innerHTML = `[${data.timestamp}] &lt;<strong style="color: #${data.color};">${data.user}</strong>&gt; ${data.msg}`;
         document.querySelector('#chatMsg').append(newMsg);
 
     });
