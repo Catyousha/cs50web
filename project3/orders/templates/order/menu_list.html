@@ -1,0 +1,57 @@
+{% extends "homelayout.html" %}
+
+{% block title %}
+Menu List | Pizzups
+{% endblock %}
+
+{% block body %}
+<div id="menu-list-header">
+  <h1 class="font-weight-bold pt-3 pl-3">Menu List</h1>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-primary active">Regular</button>
+    <button type="button" class="btn btn-primary">Sicilian</button>
+    <button type="button" class="btn btn-primary">Subs</button>
+    <button type="button" class="btn btn-primary">Pasta</button>
+    <button type="button" class="btn btn-primary">Dinner Platters</button>
+  </div>
+</div>
+<hr>
+<div id="menu-list-body">
+
+  <h3>Regular Pizza</h3>
+  <div class="row">
+    <div class="col-3">
+      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
+        <p>Regular Pizza Cheese</p>
+        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
+        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
+        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
+        <p>Regular Pizza Cheese</p>
+        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
+        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
+        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
+        <p>Regular Pizza Cheese</p>
+        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
+        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
+        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
+        <p>Regular Pizza Cheese</p>
+        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
+        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
+        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

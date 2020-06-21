@@ -1,0 +1,39 @@
+{% extends "authlayout.html" %}
+
+{% block title %}
+Login | Pizzups
+{% endblock %}
+
+{% block body %}
+
+<div class="h-100 container" style="overflow-y: auto;">
+    <div class="row align-items-center h-100">
+        <div class="col-xl-6 col-sm-12 mx-auto">
+            <div class="jumbotron bg-light">
+                <div class="text-center">
+                  <h3>Login</h3>
+                  <p class="lead">Please login with your account</p>
+                </div>
+
+                <form class="" action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                      <label class="font-weight-bold" for="username">Username</label>
+                      <input id="username" name="username" type="text" class="form-control" placeholder="Username..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="pass">Password</label>
+                      <input id="pass" name="pass" type="password" class="form-control" placeholder="Password..." aria-describedby="addon-wrapping" required>
+                </div>
+                <p>Dont have an account? <a href="{% url 'register' %}">Register</a></p>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

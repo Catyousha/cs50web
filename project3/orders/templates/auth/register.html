@@ -1,0 +1,60 @@
+{% extends "authlayout.html" %}
+
+{% block title %}
+Register | Pizzups
+{% endblock %}
+
+{% block body %}
+
+<div class="h-100 container">
+    <div class="row align-items-center h-100">
+        <div class="col-xl-6 col-sm-12 mx-auto">
+            <div class="jumbotron bg-light">
+                <div class="text-center">
+                  <h3>Register</h3>
+                  <p class="lead">Register your account</p>
+                </div>
+
+                <form class="" action="#" method="post">
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="fname">First Name</label>
+                      <input id="fname" name="fname" type="text" class="form-control" placeholder="First Name..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="lname">Last Name</label>
+                      <input id="lname" name="lname" type="text" class="form-control" placeholder="Last Name..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="font-weight-bold" for="email">Email Address</label>
+                  <input id="email" name="email" type="email" class="form-control" placeholder="Email Address..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="username">Username</label>
+                      <input id="username" name="username" type="text" class="form-control" placeholder="Username..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="pass">Password</label>
+                      <input id="pass" name="pass" type="password" class="form-control" placeholder="Password..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <div class="form-group">
+                      <label class="font-weight-bold" for="pass2">Confirm Password</label>
+                      <input id="pass2" name="pass2" type="password" class="form-control" placeholder="Confirm Password..." aria-describedby="addon-wrapping" required>
+                </div>
+
+                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

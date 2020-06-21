@@ -1,0 +1,35 @@
+{% extends "homelayout.html" %}
+
+{% block title %}
+Order List | Pizzups
+{% endblock %}
+
+{% block body %}
+<div id="order-list-header">
+  <h1 class="font-weight-bold pt-3 pl-3">Order List</h1>
+</div>
+<hr>
+<div id="order-list-body">
+  <table class="table mt-3">
+    <thead>
+      <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">Order Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Status</th>
+        <th scope="col">Price</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Pineapple Pizza [1]</td>
+        <td>Arrivederci Street</td>
+        <td>Cooking</td>
+        <td>$12</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-center"> You haven't order anything yet </p>
+</div>
+{% endblock %}

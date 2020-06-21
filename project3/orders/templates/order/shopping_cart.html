@@ -1,0 +1,47 @@
+{% extends "homelayout.html" %}
+
+{% block title %}
+Shopping Cart | Pizzups
+{% endblock %}
+
+{% block body %}
+<div id="order-list-header">
+  <h1 class="font-weight-bold pt-3 pl-3">Shopping Cart</h1>
+</div>
+<hr>
+<div id="order-list-body">
+  <table class="table mt-3">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Order Name</th>
+        <th scope="col">Price</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Pineapple Pizza [1]</td>
+        <td>$12</td>
+      </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+          <th>Total Price</th>
+          <th> </th>
+          <th>$12</th>
+        </tr>
+    </tfoot>
+  </table>
+  <p class="text-center"> You haven't order anything yet </p>
+
+<form method="post">
+  <div class="input-group input-group-lg flex-nowrap w-100">
+    <input type="text" class="form-control" placeholder="Enter your address...">
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">Order</button>
+    </div>
+  </div>
+</form>
+</div>
+{% endblock %}

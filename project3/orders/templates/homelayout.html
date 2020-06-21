@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html style="max-height: 100% !important;" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="bg-light" style="height: 100vh !important; overflow-x: hidden;">
+    <div class="row p-2">
+      <div class="col-4">
+
+        <div class="card">
+          <div class="card-body text-center">
+            <h2 class="font-weight-bold mb-4">Pizzups</h2>
+            <img width="150px" height="150px" src="https://www.pngkey.com/png/full/31-318002_pizza-png-tumblr-cartoon-pizza-transparent.png"/>
+            <p class="mt-4">Welcome to Pizzups, <b>John Doe</b>!</p>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+            <a href="#" class="mb-2 text-center btn btn-outline-primary active">Menu List</a>
+            <a href="#" class="text-center btn btn-outline-success">Order List</a>
+            <a href="#" class="mt-2 text-center btn btn-outline-danger">Shopping Cart</a>
+        </div>
+
+        <div class="card mt-2">
+            <a href="#" class="text-center p-2">Logout</a>
+        </div>
+
+      </div>
+
+
+      <div class="col-8">
+
+        <div class="container" style="background-color: white; height: 100vh; border: 1px solid rgba(0,0,0,.125);">
+          {% block body %}{% endblock %}
+        </div>
+
+      </div>
+    </div>
+</body>
+</html>
