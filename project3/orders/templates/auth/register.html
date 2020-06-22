@@ -13,10 +13,13 @@ Register | Pizzups
                 <div class="text-center">
                   <h3>Register</h3>
                   <p class="lead">Register your account</p>
+                  {% if message %}
+                    <p class="text-danger">{{ message }}</p>
+                  {% endif %}
                 </div>
 
-                <form class="" action="#" method="post">
-
+                <form class="" action="{% url 'register' %}" method="post">
+                {% csrf_token %}
                 <div class="form-group">
                       <label class="font-weight-bold" for="fname">First Name</label>
                       <input id="fname" name="fname" type="text" class="form-control" placeholder="First Name..." aria-describedby="addon-wrapping" required>

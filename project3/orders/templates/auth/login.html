@@ -13,6 +13,9 @@ Login | Pizzups
                 <div class="text-center">
                   <h3>Login</h3>
                   <p class="lead">Please login with your account</p>
+                  {% if message %}
+                    <p class="text-danger">{{ message }}</p>
+                  {% endif %}
                 </div>
 
                 <form class="" action="#" method="post">
