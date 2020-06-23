@@ -8,50 +8,37 @@ Menu List | Pizzups
 <div id="menu-list-header">
   <h1 class="font-weight-bold pt-3 pl-3">Menu List</h1>
   <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-primary active">Regular</button>
-    <button type="button" class="btn btn-primary">Sicilian</button>
-    <button type="button" class="btn btn-primary">Subs</button>
-    <button type="button" class="btn btn-primary">Pasta</button>
-    <button type="button" class="btn btn-primary">Dinner Platters</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Regular' %}'" class="btn btn-primary {% if menu_type == 'Regular' %} active {% endif %}">Regular</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Sicilian' %}'" class="btn btn-primary {% if menu_type == 'Sicilian' %} active {% endif %}">Sicilian</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Subs' %}'" class="btn btn-primary {% if menu_type == 'Subs' %} active {% endif %}">Subs</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Pasta' %}'" class="btn btn-primary {% if menu_type == 'Pasta' %} active {% endif %}">Pasta</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Salads' %}'" class="btn btn-primary {% if menu_type == 'Salads' %} active {% endif %}">Salads</button>
+    <button type="button" onclick="window.location.href='{% url 'menu list' 'Dinner-Platters' %}'" class="btn btn-primary {% if menu_type == 'Dinner Platters' %} active {% endif %}">Dinner Platters</button>
   </div>
 </div>
 <hr>
 <div id="menu-list-body">
 
-  <h3>Regular Pizza</h3>
-  <div class="row">
-    <div class="col-3">
+  {% if menu_type == 'Regular' or menu_type == 'Sicilian' %}
+    <h3>{{menu_type}} Pizza</h3>
+  {% else %}
+    <h3>{{menu_type}}</h3>
+  {% endif %}
+  <div class="row ml-2">
+    {% for menu in menus %}
+    <div class="col-3 p-0">
       <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
-        <p>Regular Pizza Cheese</p>
-        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
-        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
-        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
+        {% if menu_type == 'Regular' or menu_type == 'Sicilian' %}
+          <p class="font-weight-bold">{{menu_type}} Pizza</p>
+        {% else %}
+          <p class="font-weight-bold">{{menu_type}}</p>
+        {% endif %}
+        <p>{{menu.name}}</p>
+        <img class="mb-3" src="{{menu.picture}}" width="100px" height="100px"/>
+        <a href="{% url 'ordering' menu_type|slugify forloop.counter %}" class="btn btn-outline-info">Order Now</a>
       </div>
     </div>
-    <div class="col-3">
-      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
-        <p>Regular Pizza Cheese</p>
-        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
-        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
-        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
-        <p>Regular Pizza Cheese</p>
-        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
-        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
-        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="container text-center p-3" style="border: 1px solid rgba(0,0,0,.125);">
-        <p>Regular Pizza Cheese</p>
-        <img class="mb-3" src="https://static.phdvasia.com/sg1/menu/single/mobile_thumbnail_172dd609-c423-447d-9f5f-102e9afc4a2c.png" width="100px" height="100px"/>
-        <a onmouseover="this.innerHTML='$4.00'" onmouseout="this.innerHTML='Small'" href="#" class="btn btn-outline-info">Small</a>
-        <a onmouseover="this.innerHTML='$5.00'" onmouseout="this.innerHTML='Big'" href="#" class="btn btn-outline-danger">Big</a>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
