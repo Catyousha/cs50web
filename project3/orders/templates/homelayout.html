@@ -9,7 +9,7 @@
 </head>
 <body class="bg-light" style="height: 100vh !important; overflow-x: hidden;">
     <div class="row p-2">
-      <div class="col-4">
+      <div class="col-3">
 
         <div class="card">
           <div class="card-body text-center">
@@ -20,19 +20,19 @@
         </div>
 
         <div class="card mt-2">
-            <a href="#" class="mb-2 text-center btn btn-outline-primary active">Menu List</a>
-            <a href="#" class="text-center btn btn-outline-success">Order List</a>
-            <a href="#" class="mt-2 text-center btn btn-outline-danger">Shopping Cart</a>
+            <a href="{% url 'default menu list' %}" class="mb-2 text-center btn btn-outline-primary active">Menu List</a>
+            <a href="{% url 'order list' %}" class="text-center btn btn-outline-success">Order List</a>
+            <a href="{% url 'shopping cart' %}" class="mt-2 text-center btn btn-outline-danger">Shopping Cart</a>
         </div>
 
         <div class="card mt-2">
-            <a href="#" class="text-center p-2">Logout</a>
+            <a href="{% url 'login' %}" class="text-center p-2">Logout</a>
         </div>
 
       </div>
 
 
-      <div class="col-8">
+      <div class="col-9">
 
         <div class="container" style="background-color: white; height: 100vh; border: 1px solid rgba(0,0,0,.125); overflow-y: scroll;">
           {% block body %}{% endblock %}

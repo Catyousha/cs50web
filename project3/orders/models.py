@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Pizza(models.Model):
@@ -60,3 +61,16 @@ class DinnerPlatters(models.Model):
 
     def __str__(self):
         return f"{self.name}: [Small: {self.small}] [large: {self.large}]"
+
+class UserShoppingCart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shoppingcart") #user
+    user_fullname = models.CharField(max_length=255) #Awanama Wijaya
+    menu_desc = models.CharField(max_length=255) #Regular Pizza: Cheese
+    menu_portion=models.CharField(max_length=32) #Small
+    price = models.DecimalField(max_digits=4, blank=True, decimal_places=2, null=True) #6.00
+    topping1 = models.CharField(max_length=32, null=True, blank=True)
+    topping2 = models.CharField(max_length=32, null=True, blank=True)
+    topping3 = models.CharField(max_length=32, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user_fullname}: {self.menu_desc} [{self.menu_portion}] ${self.price} [Toppings: {self.topping1}, {self.topping2}, {self.topping3}]"

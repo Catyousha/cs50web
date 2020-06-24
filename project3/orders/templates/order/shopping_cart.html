@@ -10,38 +10,80 @@ Shopping Cart | Pizzups
 </div>
 <hr>
 <div id="order-list-body">
+  {% if carts%}
+  <a href="{% url 'default menu list' %}">&#8592; Order More</a>
   <table class="table mt-3">
     <thead>
       <tr>
         <th scope="col">No</th>
-        <th scope="col">Order Name</th>
+        <th scope="col">Menu Description</th>
+        <th scope="col">Menu Portion</th>
         <th scope="col">Price</th>
+        <th scope="col">Topping 1</th>
+        <th scope="col">Topping 2</th>
+        <th scope="col">Topping 3</th>
       </tr>
     <thead>
+
     <tbody>
+      {% for cart in carts %}
       <tr>
-        <th scope="row">1</th>
-        <td>Pineapple Pizza [1]</td>
-        <td>$12</td>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{cart.menu_desc}}</td>
+        <td>{{cart.menu_portion}}</td>
+        <td>${{cart.price}}</td>
+        <td>
+          {% if cart.topping1 is not none %}
+              {{cart.topping1}}
+          {% else %}
+              -
+          {% endif %}
+        </td>
+        <td>
+          {% if cart.topping2 is not none %}
+              {{cart.topping2}}
+          {% else %}
+              -
+          {% endif %}
+        </td>
+        <td>
+          {% if cart.topping3 is not none %}
+              {{cart.topping3}}
+          {% else %}
+              -
+          {% endif %}
+        </td>
+
       </tr>
+    {% endfor %}
     </tbody>
     <tfoot>
         <tr>
           <th>Total Price</th>
           <th> </th>
-          <th>$12</th>
+          <th> </th>
+          <th>${{total_price}}</th>
+          <th> </th>
+          <th> </th>
+          <th> </th>
         </tr>
     </tfoot>
   </table>
-  <p class="text-center"> You haven't order anything yet </p>
+  {% else %}
+  <p class="mt-5 text-center"> You haven't order anything yet </p>
+  {% endif %}
+
+{% if carts %}
+
 
 <form method="post">
   <div class="input-group input-group-lg flex-nowrap w-100">
     <input type="text" class="form-control" placeholder="Enter your address...">
     <div class="input-group-append">
-      <button class="btn btn-success" type="submit">Order</button>
+      <button class="btn btn-success" type="submit">Process Order</button>
     </div>
   </div>
 </form>
+{% endif %}
 </div>
 {% endblock %}
