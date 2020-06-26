@@ -10,26 +10,49 @@ Order List | Pizzups
 </div>
 <hr>
 <div id="order-list-body">
+  {% if orders %}
   <table class="table mt-3">
     <thead>
       <tr>
-        <th scope="col">Order ID</th>
-        <th scope="col">Order Name</th>
+        <th scope="col">No</th>
+        <th scope="col">Order Desctiption</th>
         <th scope="col">Address</th>
         <th scope="col">Status</th>
-        <th scope="col">Price</th>
+        <th scope="col">Total Price</th>
       </tr>
     <thead>
     <tbody>
+      {% for order in orders %}
       <tr>
-        <th scope="row">1</th>
-        <td>Pineapple Pizza [1]</td>
-        <td>Arrivederci Street</td>
-        <td>Cooking</td>
-        <td>$12</td>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{order.order_desc|linebreaks}}</td>
+        <td>{{order.user_address}}</td>
+        {% if order.order_status == '1' %}
+          <td><span class="badge badge-primary">Waiting</span></td>
+        {% elif order.order_status == '2' %}
+          <td><span class="badge badge-info">Cooking</span></td>
+        {% elif order.order_status == '3' %}
+          <td><span class="badge badge-warning">Delivering</span></td>
+        {% elif order.order_status == '4' %}
+          <td><span class="badge badge-success">Completed</span></td>
+        {% endif %}
+        <td>${{order.total_price}}</td>
       </tr>
+      {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+          <th>Total Spent</th>
+          <th> </th>
+          <th> </th>
+          <th> </th>
+          <th>${{total_spent}}</th>
+          <th> </th>
+        </tr>
+    </tfoot>
   </table>
+  {% else %}
   <p class="text-center"> You haven't order anything yet </p>
+  {% endif %}
 </div>
 {% endblock %}

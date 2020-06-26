@@ -6,7 +6,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
 
 from orders.models import Pizza, Topping, Subs, AdditionalSubs, Pasta, Salads, DinnerPlatters
-from orders.models import UserShoppingCart
+from orders.models import UserShoppingCart, UserOrderList
 
 from django.db.models import Sum
 
@@ -174,11 +174,54 @@ def orderList(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
 
-    return render(request, "order/order_list.html")
+    orders = request.user.orders.all()
+    if orders:
+        total_spent = round(request.user.orders.all().aggregate(Sum('total_price'))['total_price__sum'], 2)
+    else:
+        total_spent = None
+    return render(request, "order/order_list.html", {'orders':orders, 'total_spent':total_spent})
 
-def shoppingCart(request):
+def shoppingCart(request, option="", shopping_cart_id=-1):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+
+    if option=="delete":
+        request.user.shoppingcart.filter(id=shopping_cart_id).delete()
+        return HttpResponseRedirect(reverse("shopping cart"))
+
+    if request.method == "POST":
+        user_address = request.POST.get("address")
+        orders = request.user.shoppingcart.all()
+        total_price = round(request.user.shoppingcart.all().aggregate(Sum('price'))['price__sum'], 2)
+        order_desc = ""
+        a = [x for x in orders]
+        for x in range(len(a)):
+            order_desc = order_desc + a[x].menu_desc
+            check_topping_none = [v is not None for v in [a[x].topping1, a[x].topping2, a[x].topping3]]
+
+            if any(check_topping_none):
+                order_desc = order_desc + " ("
+                if check_topping_none[1]:
+                     order_desc = order_desc + a[x].topping1 +", "
+                     if check_topping_none[2]:
+                         order_desc = order_desc + a[x].topping2 + ", " + a[x].topping3
+                     else:
+                         order_desc = order_desc + a[x].topping2
+                else:
+                    order_desc = order_desc + a[x].topping1
+                order_desc = order_desc +")"
+            order_desc = order_desc + ";\n"
+
+        UserOrderList(user=request.user,
+                        user_fullname=request.user.first_name + " " +request.user.last_name,
+                        order_desc=order_desc,
+                        total_price=total_price,
+                        user_address=user_address,
+                        order_status='1').save()
+
+        orders.delete()
+        return HttpResponseRedirect(reverse("order list"))
+
 
     carts = request.user.shoppingcart.all()
     if carts:

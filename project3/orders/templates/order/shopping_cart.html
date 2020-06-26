@@ -12,63 +12,67 @@ Shopping Cart | Pizzups
 <div id="order-list-body">
   {% if carts%}
   <a href="{% url 'default menu list' %}">&#8592; Order More</a>
-  <table class="table mt-3">
-    <thead>
-      <tr>
-        <th scope="col">No</th>
-        <th scope="col">Menu Description</th>
-        <th scope="col">Menu Portion</th>
-        <th scope="col">Price</th>
-        <th scope="col">Topping 1</th>
-        <th scope="col">Topping 2</th>
-        <th scope="col">Topping 3</th>
-      </tr>
-    <thead>
-
-    <tbody>
-      {% for cart in carts %}
-      <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{cart.menu_desc}}</td>
-        <td>{{cart.menu_portion}}</td>
-        <td>${{cart.price}}</td>
-        <td>
-          {% if cart.topping1 is not none %}
-              {{cart.topping1}}
-          {% else %}
-              -
-          {% endif %}
-        </td>
-        <td>
-          {% if cart.topping2 is not none %}
-              {{cart.topping2}}
-          {% else %}
-              -
-          {% endif %}
-        </td>
-        <td>
-          {% if cart.topping3 is not none %}
-              {{cart.topping3}}
-          {% else %}
-              -
-          {% endif %}
-        </td>
-
-      </tr>
-    {% endfor %}
-    </tbody>
-    <tfoot>
+  <div>
+    <table class="table mt-3 table-fixed text-center">
+      <thead>
         <tr>
-          <th>Total Price</th>
-          <th> </th>
-          <th> </th>
-          <th>${{total_price}}</th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
+          <th scope="col">No</th>
+          <th scope="col">Menu Description</th>
+          <th scope="col">Menu Portion</th>
+          <th scope="col">Price</th>
+          <th scope="col">Topping<br>1</th>
+          <th scope="col">Topping<br>2</th>
+          <th scope="col">Topping<br>3</th>
+          <th scope="col">Option</th>
         </tr>
-    </tfoot>
-  </table>
+      <thead>
+
+      <tbody>
+        {% for cart in carts %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{cart.menu_desc}}</td>
+          <td>{{cart.menu_portion}}</td>
+          <td>${{cart.price}}</td>
+          <td>
+            {% if cart.topping1 is not none %}
+                {{cart.topping1}}
+            {% else %}
+                -
+            {% endif %}
+          </td>
+          <td>
+            {% if cart.topping2 is not none %}
+                {{cart.topping2}}
+            {% else %}
+                -
+            {% endif %}
+          </td>
+          <td>
+            {% if cart.topping3 is not none %}
+                {{cart.topping3}}
+            {% else %}
+                -
+            {% endif %}
+          </td>
+          <td><a href="{% url 'shopping cart option' 'delete' cart.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+          <tr>
+            <th>Total Price</th>
+            <th> </th>
+            <th> </th>
+            <th>${{total_price}}</th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+          </tr>
+      </tfoot>
+    </table>
+  </div>
   {% else %}
   <p class="mt-5 text-center"> You haven't order anything yet </p>
   {% endif %}
@@ -77,8 +81,9 @@ Shopping Cart | Pizzups
 
 
 <form method="post">
+  {% csrf_token %}
   <div class="input-group input-group-lg flex-nowrap w-100">
-    <input type="text" class="form-control" placeholder="Enter your address...">
+    <input type="text" name="address" class="form-control" placeholder="Enter your address..." required>
     <div class="input-group-append">
       <button class="btn btn-success" type="submit">Process Order</button>
     </div>

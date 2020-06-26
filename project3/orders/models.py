@@ -74,3 +74,20 @@ class UserShoppingCart(models.Model):
 
     def __str__(self):
         return f"{self.user_fullname}: {self.menu_desc} [{self.menu_portion}] ${self.price} [Toppings: {self.topping1}, {self.topping2}, {self.topping3}]"
+
+class UserOrderList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders") #user
+    user_fullname = models.CharField(max_length=255) #Awanama Wijaya
+    order_desc = models.TextField() #Regular Pizza: 3 Toppings [Pepperoni, Anchovies, Chicken Berbecue]; Subs: etc...
+    total_price = models.DecimalField(max_digits=4, blank=True, decimal_places=2, null=True) #37.70
+    user_address = models.TextField()
+
+    ORDER_STATUS_CHOICES = (
+        ('1', 'Waiting'),
+        ('2', 'Cooking'),
+        ('3', 'Delivering'),
+        ('4', 'Complete')
+    )
+    order_status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES)
+    def __str__(self):
+        return f"{self.user_fullname}: {self.order_desc} [{self.order_status}] ${self.total_price} [Address: {self.user_address}]"
